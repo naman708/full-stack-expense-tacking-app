@@ -1,0 +1,94 @@
+<!-- views/form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title>Product Form</title>
+</head>
+<body>
+  <div class="container">
+    <a href="display.html">Home Page</a>
+    <h1 class="title">Booking App</h1>
+    <form  method="POST" id="formapp">
+      <label for="name" class="form-label">Name Of Product:</label>
+      <input type="text" id="name" name="name" class="form-control" required ><br>
+  
+      <label for="description" class="form-label">Product Description:</label>
+      <textarea id="description" name="description" rows="4" class="form-control" required></textarea><br>
+      
+  
+      <button type="submit" class="btn btn-dark">Submit</button>
+    </form>
+    <ul id="applist" class="list-group">
+      
+  
+    </ul></div>
+  
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script >
+  const form=document.getElementById('formapp');
+  const userlist=document.getElementById('applist');
+ 
+
+  form.addEventListener('submit',onsubmit)
+  function onsubmit(e){
+    e.preventDefault();
+    const I1=document.getElementById('name');
+    const I2=document.getElementById('description');
+     const name=I1.value;
+  const description=I2.value;
+    const obj={
+      name,
+      description
+      
+    };
+    axios.post("http://localhost:3000/get-product",obj)
+    .then((response)=>{
+      console.log(response);
+     // window.location.href = "display.html";
+     showuser(response.data.newuserdetails)
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+   I1.value='';
+    I2.value='';
+
+  }
+  function showuser(user){
+    const li=document.createElement('li');
+    li.className="list-group-item";
+    const delbtn=document.createElement('button');
+    delbtn.className='btn btn-danger btn-sm float-right delete';
+    delbtn.appendChild(document.createTextNode('delete'));
+   
+    li.appendChild(document.createTextNode(`${user.name}--->${user.description}`));
+    li.appendChild(delbtn);
+    userlist.appendChild(li);
+    delbtn.onclick=()=>{
+      axios.delete(`http://localhost:3000/del-product/${user.id}`)
+      .then((res)=>{
+        userlist.removeChild(li);
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+
+
+    };
+
+  }
+  window.addEventListener('DOMContentLoaded', () => {
+    axios.get("http://localhost:3000/add-product")
+        .then((res) => {
+            for (var i = 0; i < res.data.alluser.length; i++) {
+                showuser(res.data.alluser[i]);
+            }
+        })
+        .catch((err) => console.log(err));
+})
+</script>
