@@ -18,6 +18,7 @@ const addordelExpense = require('./routes/addordelexpense');
 const purchase= require('./routes/purchase');
 const PremiumFeat= require('./routes/premiumfeature');
 const ResetPassword= require('./routes/resetpassword');
+const downloaduserreport= require('./routes/Downloadreport');
 
 const rootDir=require('./util/path');
 
@@ -32,6 +33,7 @@ app.use(addordelExpense);
 app.use(purchase);
 app.use(PremiumFeat);
 app.use(ResetPassword);
+app.use(downloaduserreport);
 SIGNIN.hasMany(Expense);
 Expense.belongsTo(SIGNIN);
 SIGNIN.hasMany(Order);
