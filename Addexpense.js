@@ -49,7 +49,9 @@ exports.showallexpenses= async(req,res)=>{
         
       // res.status(201).json({Alluserdata:finddata});
        const page = req.params.id || 1; // Get the page number from the request
-       const itemsPerPage = 2; // Define the number of items per page
+       const itemperpage=req.query.itemperpage;;
+       const itemsPerPage = Number(itemperpage); 
+       console.log(`item>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${itemperpage}`);// Define the number of items per page
        const offset = (page - 1) * itemsPerPage;
 
        const expenses = await Expense.findAndCountAll({

@@ -30,6 +30,15 @@
     
     <div class="container mt-3 md-3" id="listofexpenses">
         <h2>List Of Expenses</h2>
+        <form id="page">
+            <label for="selectBox" class="form-label">No of expense per page</label>
+            <select class="form-select" id="selectBox" name="sellist1">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+        </form>
         <ul class="list-group" id="expenselist"></ul>
         <div class="container" id="paignation"></div>
 
@@ -48,6 +57,12 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script >
+    const selectBox = document.getElementById("selectBox");
+    selectBox.addEventListener("change", function() {
+        // Get the selected value
+        const selectedValue = selectBox.value;
+        localStorage.setItem('itemperpage',selectedValue);
+      });
     const downbtn=document.getElementById('download');
     downbtn.onclick=()=>{
         const token=localStorage.getItem('token');
@@ -220,6 +235,7 @@
     
     window.addEventListener('DOMContentLoaded', () => {
         const token=localStorage.getItem('token');
+        const itemperpage=localStorage.getItem('itemperpage');
         const Decode=parseJwt(token);
         console.log(Decode);
         if(Decode.ispremiumuser){
@@ -230,11 +246,18 @@
             leaderboardbtn.style.display='block';
 
            }
-        const headers = {
-            "Authorization":token
-        };
+        //const headers = {
+           // "Authorization":token
+        //};
         const page=1;
-        axios.get(`http://localhost:3000/user/login/show-expense${page}`,{headers})
+        axios.get(`http://localhost:3000/user/login/show-expense/${page}`,{
+            params: {
+                itemperpage: itemperpage
+            },
+            headers: {
+                "Authorization": token
+            }
+        })
             .then((res) => {
 
                 console.log(res.data);
@@ -299,10 +322,18 @@
 
     function getexpense(page){
         const token=localStorage.getItem('token');
-        const headers = {
-            "Authorization":token
-        };
-        axios.get(`http://localhost:3000/user/login/show-expense${page}`,{headers})
+        const itemperpage=localStorage.getItem('itemperpage');
+        //const headers = {
+           // "Authorization":token
+       // };
+        axios.get(`http://localhost:3000/user/login/show-expense/${page}`,{
+            params: {
+                itemperpage: itemperpage
+            },
+            headers: {
+                "Authorization": token
+            }
+        })
         .then((res) => {
 
             console.log(res.data);
