@@ -3,9 +3,9 @@ const AWS=require('aws-sdk');
 
 
 function uploadToS3(data,filename){
-    const BUCKET_NAME='expenseracker';
-    const IAM_USER_KEY='AKIA45S54HN3MTZ53PZX';
-    const IAM_USER_SECRET='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';
+    const BUCKET_NAME='';
+    const IAM_USER_KEY='';
+    const IAM_USER_SECRET='';
     let s3bucket=new AWS.S3({
         accessKeyId:IAM_USER_KEY,
         secretAccessKey:IAM_USER_SECRET,
