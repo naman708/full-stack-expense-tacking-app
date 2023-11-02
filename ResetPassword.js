@@ -27,7 +27,7 @@ exports.forgotpass=async (req,res)=>{
         service: 'Gmail', // Use the name of your email service provider
         auth: {
           user: 'helpgpumusic@gmail.com',
-          pass: 'xndm plhk lghh nqtu',
+          pass:process.env.PASS,
         },
         });
 

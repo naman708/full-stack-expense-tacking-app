@@ -58,10 +58,14 @@
 
 <script >
     const selectBox = document.getElementById("selectBox");
-    selectBox.addEventListener("change", function() {
+    selectBox.addEventListener("change", function(e) {
         // Get the selected value
+        e.preventDefault();
+
         const selectedValue = selectBox.value;
+        console.log(selectedValue);
         localStorage.setItem('itemperpage',selectedValue);
+        //location.reload();
       });
     const downbtn=document.getElementById('download');
     downbtn.onclick=()=>{
@@ -69,7 +73,7 @@
         const headers = {
             "Authorization":token
         };
-    axios.get("http://localhost:3000/user/downloadreport",{headers})
+    axios.get("http://34.202.235.249:3000/user/downloadreport",{headers})
     .then((res)=>{
         console.log(res.data.status);
         if(res.status === 201){
@@ -114,7 +118,7 @@
         const headers = {
             "Authorization":token
         };
-    axios.get("http://localhost:3000/premiumuser/leaderboard",{headers})
+    axios.get("http://34.202.235.249:3000/premiumuser/leaderboard",{headers})
     .then((res)=>{
         console.log(res.data);
         for(var i=0;i<res.data.premiumdata.length;i++){
@@ -134,13 +138,13 @@
         const headers = {
             "Authorization":token
         };
-        const response=await axios.get("http://localhost:3000/purchase/premiummembership",{headers})
+        const response=await axios.get("http://34.202.235.249:3000/purchase/premiummembership",{headers})
         console.log(response);
         var options={
             "key":response.data.key_id,
             "order_id":response.data.order.id,
             "handler": async function(response){
-                const res=await axios.post("http://localhost:3000/purchase/updatetransaction",{
+                const res=await axios.post("http://34.202.235.249:3000/purchase/updatetransaction",{
                     order_id:options.order_id,
                     payment_id:response.razorpay_payment_id,
                 },{headers})
@@ -180,7 +184,7 @@
             "Authorization":token
         };
 
-        axios.post("http://localhost:3000/user/login/add-expense",obj1,{headers})
+        axios.post("http://34.202.235.249:3000/user/login/add-expense",obj1,{headers})
         .then((res)=>{
             console.log(res.data.added);
             showuser(res.data.added);
@@ -209,7 +213,7 @@
                 "Authorization":token
             };
            
-            axios.delete(`http://localhost:3000/user/login/del-expense/${user.id}/${user.Price}`,{headers})
+            axios.delete(`http://34.202.235.249:3000/user/login/del-expense/${user.id}/${user.Price}`,{headers})
             .then((res)=>{
                 Expenselist.removeChild(li);
                 console.log(res);
@@ -250,7 +254,7 @@
            // "Authorization":token
         //};
         const page=1;
-        axios.get(`http://localhost:3000/user/login/show-expense/${page}`,{
+        axios.get(`http://34.202.235.249:3000/user/login/show-expense/${page}`,{
             params: {
                 itemperpage: itemperpage
             },
@@ -326,7 +330,7 @@
         //const headers = {
            // "Authorization":token
        // };
-        axios.get(`http://localhost:3000/user/login/show-expense/${page}`,{
+        axios.get(`http://34.202.235.249:3000/user/login/show-expense/${page}`,{
             params: {
                 itemperpage: itemperpage
             },

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Appointments</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+</head>
+<body>
+ <div class="container">
+  <div id="card" class="card card-body">
+    <h2 class="title">Cart</h2>
+    <ul id="applist" class="list-group">
+      
+  
+    </ul>
+  </div>
+ </div>
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script>
+  const userlist=document.getElementById('applist');
+  const card=document.getElementById('card');
+  card.style.backgroundColor='grey';
+  function showuser(user){
+    const li=document.createElement('li');
+    li.className="list-group-item";
+    const delbtn=document.createElement('button');
+    delbtn.className='btn btn-danger btn-sm float-right delete';
+    delbtn.appendChild(document.createTextNode('delete'));
+   
+    li.appendChild(document.createTextNode(`${user.name}--->${user.description}`));
+    li.appendChild(delbtn);
+    userlist.appendChild(li);
+    delbtn.onclick=()=>{
+      axios.delete(`http://localhost:3000/del-product/${user.id}`)
+      .then((res)=>{
+        userlist.removeChild(li);
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+
+
+    };
+
+  }
+  window.addEventListener('DOMContentLoaded', () => {
+    axios.get("http://localhost:3000/add-product")
+        .then((res) => {
+            for (var i = 0; i < res.data.alluser.length; i++) {
+                showuser(res.data.alluser[i]);
+            }
+        })
+        .catch((err) => console.log(err));
+})
+</script>
+
+const userlogin = res.data.userlogin;
+
+          for (let i = 0; i < userlogin.length; i++) {
+            const user = userlogin[i];
+            if (user.EMAIL === EMAILL && user.PASSWORD === PASSWORD) {
+              window.alert('Login successful');
+              console.log('Login successful');
+              return;
+            }
+          }
+          window.alert('Login failed. Please check your credentials.');
+          console.log('Login failed');
+          if(res.data.user==null){
+            axios.post("http://localhost:3000/user/signin",obj)
+            .then((res)=>{
+                console.log(res.data);
+            })
+            .catch((err)=>{
+                console.log(err);
+            })  
+        }
+        else{
+            console.log("alreadyauser");
+            const msg1=document.getElementById('msg');
+            const li=document.createElement('li');
+            li.appendChild(document.createTextNode('User already exist.'));
+            li.style.color='red';
+            msg1.appendChild(li);
+            setTimeout(function() {
+                msg1.removeChild(li);
+              }, 5000);
+        }
+        xndm plhk lghh nqtu

@@ -2,6 +2,8 @@
 // app.js
 const path = require('path'); 
 const express = require('express');
+const dotenv = require('dotenv');
+dotenv.config();
 const cors = require('cors');
 
 // Use CORS middleware
@@ -23,6 +25,7 @@ const downloaduserreport= require('./routes/Downloadreport');
 const rootDir=require('./util/path');
 
 const app = express();
+
 app.use(cors());
 
 app.use(bodyParser.json({extended:false}));
@@ -34,6 +37,12 @@ app.use(purchase);
 app.use(PremiumFeat);
 app.use(ResetPassword);
 app.use(downloaduserreport);
+
+app.use((req,res)=>{
+  console.log('url',req.url);
+  res.sendFile(path.join(__dirname,`public/${req.url}`));
+})
+
 SIGNIN.hasMany(Expense);
 Expense.belongsTo(SIGNIN);
 SIGNIN.hasMany(Order);
@@ -44,8 +53,8 @@ Forgotpass.belongsTo(SIGNIN);
 sequelize.sync().then(() => {
   console.log('Database & tables created!');
 });
-
-app.listen(3000, () => {
+console.log(`port>>>>>>>>>>>>>>${process.env.PORT}`);
+app.listen(process.env.PORT, () => {
   console.log('Server is running on port 3000');
 });
 
